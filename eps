@@ -1,0 +1,8 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("EPS")
+EPS = request.financial(syminfo.tickerid, "EARNINGS_PER_SHARE", "TTM")
+
+plot(series=EPS, title = 'EPS', color = color.orange)
