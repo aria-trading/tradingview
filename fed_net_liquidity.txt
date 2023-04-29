@@ -1,0 +1,13 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("My Fed Net Liquidity")
+
+line_fed   = request.security("FRED:WALCL",                     "D", close, currency = currency.USD)
+line_rrp   = request.security("RRPONTSYD",                      "D", close, currency = currency.USD)
+line_tga   = request.security("WTREGEN",                        "D", close, currency = currency.USD)
+
+total = (line_fed - line_rrp - line_tga)
+
+plot(series=total, title = 'My Fed Net Liquidity', color = color.orange)
