@@ -1,0 +1,29 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("Global Net Liquidity WoW", overlay = false)
+
+liq_fed_now   = request.security("FRED:WALCL",                     "W", close, currency = currency.USD)
+liq_japan_now = request.security("FRED:JPNASSETS * FX_IDC:JPYUSD", "W", close, currency = currency.USD)
+liq_china_now = request.security("CNCBBS         * FX_IDC:CNYUSD", "W", close, currency = currency.USD)
+liq_uk_now    = request.security("GBCBBS         * FX:GBPUSD",     "W", close, currency = currency.USD)
+liq_ecb_now  = request.security("ECBASSETSW     * FX:EURUSD",     "W", close, currency = currency.USD)
+us_rrp_now   = request.security("RRPONTSYD",                      "W", close, currency = currency.USD)
+us_tga_now   = request.security("WTREGEN",                        "W", close, currency = currency.USD)
+
+total_now = (liq_fed_now + liq_japan_now + liq_china_now + liq_uk_now + liq_ecb_now - us_rrp_now - us_tga_now)
+
+liq_fed_week_ago   = request.security("FRED:WALCL",                     "W", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+liq_japan_week_ago = request.security("FRED:JPNASSETS * FX_IDC:JPYUSD", "W",  close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+liq_china_week_ago = request.security("CNCBBS         * FX_IDC:CNYUSD", "W", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+liq_uk_week_ago    = request.security("GBCBBS         * FX:GBPUSD",     "W", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+liq_ecb_week_ago  = request.security("ECBASSETSW     * FX:EURUSD",     "W", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+us_rrp_week_ago   = request.security("RRPONTSYD",                      "W", close[1],lookahead=barmerge.lookahead_off,  currency = currency.USD)
+us_tga_week_ago   = request.security("WTREGEN",                        "W", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+
+total_week_ago = (liq_fed_week_ago + liq_japan_week_ago + liq_china_week_ago + liq_uk_week_ago + liq_ecb_week_ago - us_rrp_week_ago - us_tga_week_ago)
+
+total = total_now - total_week_ago
+
+plot(series=total, title = 'Global Net Liquidity WoW', color = color.orange)
