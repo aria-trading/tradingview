@@ -1,0 +1,9 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("Price Book Ratio")
+book_value_per_share = request.financial(syminfo.tickerid, "BOOK_VALUE_PER_SHARE", "FQ")
+price_book_ratio = close / book_value_per_share
+
+plot(price_book_ratio, title = 'Price Book Ratio', color = color.orange)
