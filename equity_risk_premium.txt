@@ -1,0 +1,33 @@
+^// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator('Equity Risk Premium')
+f_security(_symbol, _res, _src, _repaint) =>
+    request.security(_symbol, _res, _src[_repaint ? 0 : barstate.isrealtime ? 1 : 0])[_repaint ? 0 : barstate.isrealtime ? 0 : 1]
+res = timeframe.period
+cr = input.string(title='Credit Risk', defval='CBOE:VXHYG', options=['CBOE:VXHYG', 'AMEX:HYG'])
+minus = input(title='Use Equity Risk - Credit Risk', defval=false)
+re = input(title='Repaint', defval=true)
+
+equityrisk = f_security('CBOE:VIX', res, close, re)
+creditrisk = 0 * equityrisk
+
+if cr == 'CBOE:VXHYG'
+    creditrisk := f_security('CBOE:VXHYG', res, close, re)
+    creditrisk
+else
+    creditrisk := f_security('AMEX:HYG', res, close, re)
+    creditrisk
+
+final = 0 * equityrisk
+if minus == true
+    final := equityrisk - creditrisk
+    final
+else
+    final := equityrisk / creditrisk - 1
+    final
+
+plot(final, 'Premium', color.new(#0000ff, 0))
+hline(0, 'Zero Line', #000000, linestyle=hline.style_dotted)
+
