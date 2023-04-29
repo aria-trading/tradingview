@@ -1,0 +1,9 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("Price To Cash Flow Ratio")
+cash_flow = request.financial(syminfo.tickerid, "CASH_F_OPERATING_ACTIVITIES", "FQ")
+price_to_cash_flow_ratio = close / cash_flow
+
+plot(price_to_cash_flow_ratio, title = 'Price To Cash Flow Ratio', color = color.orange)
