@@ -1,0 +1,9 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("PE Ratio")
+eps = request.financial(syminfo.prefix+":"+syminfo.ticker, "EARNINGS_PER_SHARE", "TTM")
+pe_ratio = close/eps
+
+plot(series=pe_ratio, title = 'PE Ratio', color = color.orange)
