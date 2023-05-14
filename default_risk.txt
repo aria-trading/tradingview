@@ -1,0 +1,11 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("Default risk", overlay = false)
+
+fra   = request.security("FRA", "D", close, currency = currency.USD)
+ois = request.security("OIS", "D", close, currency = currency.USD)
+default_risk = fra - ois
+
+plot(series=default_risk, title = 'Default risk', color = color.orange)
