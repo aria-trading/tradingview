@@ -1,0 +1,11 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("Short Term Funding", overlay = false)
+
+sofr   = request.security("SOFR", "D", close, currency = currency.USD)
+ffr = request.security("FEDFUNDS", "D", close, currency = currency.USD)
+short_term_funding = sofr - ffr
+
+plot(series=short_term_funding, title = 'Short Term Funding', color = color.orange)
