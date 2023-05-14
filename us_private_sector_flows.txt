@@ -1,0 +1,21 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © ariaxx98
+
+//@version=5
+indicator("US private sector flows", overlay = false)
+
+credit_creation_now  = request.security("TOTBKCR",     "M", close, currency = currency.USD)
+credit_creation_1month_ago  = request.security("TOTBKCR",     "M", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+credit_creation_new = credit_creation_now - credit_creation_1month_ago
+
+government_spending  = request.security("USGSP",     "M", close, currency = currency.USD)
+government_receipts  = request.security("FYFR",     "3M", close, currency = currency.USD)
+spending_less_receipts = government_spending - government_receipts
+
+bank_deposits_now  = request.security("DPSACBW027SBOG",     "M", close, currency = currency.USD)
+bank_deposits_1month_ago  = request.security("DPSACBW027SBOG",     "M", close[1], lookahead=barmerge.lookahead_off, currency = currency.USD)
+bank_deposits_new = bank_deposits_now - bank_deposits_1month_ago
+
+us_private_sector_flows = (credit_creation_new + spending_less_receipts + bank_deposits_new)
+
+plot(series=us_private_sector_flows, title = 'US private sector flows', color = color.orange)
